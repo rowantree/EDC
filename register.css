@@ -1,0 +1,14 @@
+
+.form-small .control-label {
+    width: 150px;
+}
+
+.form-small .controls {
+    margin-left: 120px;
+}
+
+
+.form-control {
+    width: 350px;
+
+}

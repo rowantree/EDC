@@ -1,0 +1,67 @@
+<html ng-app="RegForm">
+<head>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.js" type="text/javascript"></script>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="register.css" rel="stylesheet">
+    <script type="text/javascript" src="config.js"></script>
+    <script type="text/javascript" src="RegForm.js"></script>
+
+</head>
+<body>
+<h2>EDC Event Registration</h2>
+
+<div ng-controller="RegController as Reg" >
+
+    User Name: {{Reg.formData.firstName}} {{Reg.formData.lastName}} http: Data:[{{Reg.data}}] Status:[{{Reg.status}}]
+
+    <form name="registerForm" class="form-horizontal form-small" ng-submit="Reg.SubmitForm(formData)" action="confirm.php" method="post"
+          role="form">
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Event</label>
+            <div class="col-sm-10"><input class="form-control input-sm" name="event" maxlength="20" size="20" type="text" ng-model="Reg.formData.event" readonly></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Cost ($)</label>
+            <div class="col-sm-10"><input class="form-control input-sm" name="amountDue" maxlength="20" size="20" type="text" ng-model="Reg.formData.amountDue" readonly></div>
+        </div>
+
+
+        <text-field Name="firstName" Label="First Name*" Model="Reg.formData.firstName"></text-field>
+        <text-field Name="lastName" Label="Last Name*" Model="Reg.formData.lastName"></text-field>
+        <text-field Name="address" Label="Address*" Model="Reg.formData.address"></text-field>
+        <text-field Name="city" Label="City*" Model="Reg.formData.city"></text-field>
+        <option-field Name="state" Label="State*" Values="Reg.pl.statesList"
+                      Model=Reg.formData.state></option-field>
+        <text-field Name="zipcode" Label="Zipcode*" Model=Reg.formData.zipcode></text-field>
+        <text-field Type="email" Name="email" Label="Email Address*" Model=Reg.formData.email></text-field>
+        <text-field Name="phone" Label="Phone*" Model=Reg.formData.phone></text-field>
+
+        <radio-options Name="paymentType" Label="Payment Method*" Values="Reg.pl.paymentOptions" Model=Reg.formData.paymentType></radio-options>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">&nbsp;</label>
+            <div class="col-sm-10">
+                <button class="btn btn-primary" type="submit" ng-disabled="registerForm.$invalid">Click Here to register
+                </button>
+                <button class="btn" type="" ng-click="Reg.ResetPage()">Reset</button>
+            </div>
+        </div>
+
+    </form>
+    <!--
+    <div ng-app="RegForm">
+        <div ng-controller="RegController as reg">
+    </div>
+    </div>
+    -->
+
+</div>
+
+</body>
+</html>
