@@ -17,18 +17,26 @@
 <div ng-controller="RegController as Reg" >
 
     User Name: {{Reg.formData.firstName}} {{Reg.formData.lastName}} http: Data:[{{Reg.data}}] Status:[{{Reg.status}}]
+    <br>
+    Event:{{Reg.formData.event}}
+    URL:{{Reg.formData.URL}}
+    RegDate:{{Reg.formData.regDate}}
+    <br>
+    Invalid:{{registerForm.$invalid}} Error:{{registerForm.$error}}
 
     <form name="registerForm" class="form-horizontal form-small" ng-submit="Reg.SubmitForm(formData)" action="confirm.php" method="post"
           role="form">
 
+        <input  type="text" name="eventCode" ng-model="Reg.eventData.eventCode">
+
         <div class="form-group">
             <label class="col-sm-2 control-label">Event</label>
-            <div class="col-sm-10"><input class="form-control input-sm" name="event" maxlength="20" size="20" type="text" ng-model="Reg.formData.event" readonly></div>
+            <div class="col-sm-10"><input class="form-control input-sm" name="event" type="text" ng-model="Reg.eventData.eventDesc" readonly></div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-2 control-label">Cost ($)</label>
-            <div class="col-sm-10"><input class="form-control input-sm" name="amountDue" maxlength="20" size="20" type="text" ng-model="Reg.formData.amountDue" readonly></div>
+            <div class="col-sm-10"><input class="form-control input-sm" name="amountDue" type="text" ng-model="Reg.eventData.amountDue" readonly></div>
         </div>
 
 
@@ -47,12 +55,13 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">&nbsp;</label>
             <div class="col-sm-10">
-                <button class="btn btn-primary" type="submit" ng-disabled="registerForm.$invalid">Click Here to register
-                </button>
+                <button class="btn btn-primary" type="submit" ng-disabled="registerForm.$invalid">Click Here to register</button>
                 <button class="btn" type="" ng-click="Reg.ResetPage()">Reset</button>
+                <button class="btn" type="Force">Click Here to register</button>
             </div>
         </div>
 
+        <a href="ClearSession.php?EventCode={{Reg.eventData.eventCode}}">[Clear Session]</a>
     </form>
     <!--
     <div ng-app="RegForm">

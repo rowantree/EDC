@@ -24,7 +24,7 @@ if ($data['paymentType'] == 'PayPal') // && !IsSet($_SESSION['token'])) {
 	$currencyCodeType = "USD";
 	$paymentType = "Sale";
 	$returnURL = "$host/PaypalInvoice.php";
-	$cancelURL = "$host/register.html";
+	$cancelURL = "$host/register.html#" . $data['eventCode'];
 	$resArray = CallShortcutExpressCheckout ($paymentAmount, $currencyCodeType, $paymentType, $returnURL, $cancelURL);
 	$ack = strtoupper($resArray["ACK"]);
 	if ($ack=="SUCCESS")

@@ -45,6 +45,10 @@
         echo "Paypal Payment Option<br>";
         include "payment.php";
     }
+    else
+    {
+        include "SaveRegistration.php";
+    }
 ?>
 <a href="register.html"><button type="button">Register</button></a>
 <a href="submit.php"><button type="button">Submit</button></a>

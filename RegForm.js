@@ -82,25 +82,9 @@ myApp.directive('optionField', function () {
     }
 });
 
-    myApp.controller('RegController', ['$http',
-        function ($http)
+    myApp.controller('RegController', ['$http', '$location',
+        function ($http, $location)
     {
-        console.log("RegController");
-        this.formData = {};
-        this.formData.firstName = "Stephen";
-        this.formData.lastName = "Morley";
-        this.formData.city = "Redding";
-        this.formData.zipcode = "06896";
-        this.formData.state = "CT";
-        this.pl = pl;
-
-        this.formData.amountDue = "125.00";
-        this.formData.event = "EDC Event 1";
-
-        this.status = "Ready";
-        this.data = "n/a";
-
-
         this.GetSession = function() {
             this.status = "Calling";
 
@@ -131,9 +115,6 @@ myApp.directive('optionField', function () {
 
         };
 
-
-        this.GetSession();
-
         this.Register = function()
         {
             submit();
@@ -150,5 +131,55 @@ myApp.directive('optionField', function () {
             console.log("this.SubmitForm");
             return false;
         }
+
+
+        this.formData = {};
+        this.eventData = {};
+        this.pl = pl;
+
+        // See if there was any information in the session
+        this.GetSession();
+
+        this.eventData.eventCode = $location.path();
+        if (this.eventData.eventCode in pl.events)
+        {
+            var event = pl.events[this.eventData.eventCode];
+            this.eventData.event = event.event;
+            this.eventData.eventDesc = event.eventDesc;
+
+            this.eventData.regDate = 'Registration Is Closed';
+            this.eventData.amountDue = 'Registration Is Closed';
+            for(var i=0; i<event.cost.length; ++i)
+            {
+                if ( Date.parse(event.cost[i].Date) > Date.now() )
+                {
+                    this.eventData.regDate = event.cost[i].Date;
+                    this.eventData.amountDue = event.cost[i].Amount;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            this.eventData.eventDesc = 'I don\'t know what event you are attending';
+            this.eventData.eventCode = '';
+        }
+
+        // Test Data Initialization
+        this.formData.firstName = "Stephen";
+        this.formData.lastName = "Morley";
+        this.formData.city = "Redding";
+        this.formData.zipcode = "06896";
+        this.formData.state = "CT";
+
+        // Setup the event
+
+        this.status = "Ready";
+        this.data = "n/a";
+
+
+
+
+
     }]);
 

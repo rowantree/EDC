@@ -2,6 +2,39 @@
  * Created by smorley on 2016-08-16.
  */
 var pl = {
+    "events":{
+        '/taketina':
+        {
+            event : "Taketina",
+            cost : [
+                {
+                    Date: "2016.10.11",
+                    Amount: 295
+                },
+                {
+                    Date: "2016.10.26",
+                    Amount: 325
+                }
+            ],
+            eventDesc : "Taketina Workshop Oct 28, 29, and 30"
+        },
+        '/playshop':
+        {
+            event : "Playshop",
+            cost : [
+                {
+                    Date: "2016.10.01",
+                    Amount: 280
+                },
+                {
+                    Date: "2016.12.02",
+                    Amount: 320
+                }
+            ],
+            eventDesc : "Playshop Dec 2-4"
+        }
+
+    },
     "paymentOptions":[
         {Value: "PayPal", Label: "PayPal"},
         {Value: "Check", Label: "Check"},
