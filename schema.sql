@@ -12,5 +12,6 @@ CREATE TABLE `edc_event` (
   `phone` varchar(45) DEFAULT NULL,
   `paymentType` varchar(45) DEFAULT NULL,
   `regDate` datetime DEFAULT NULL,
+  `transactionId` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`edc_event_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;

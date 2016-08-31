@@ -5,7 +5,7 @@ var pl = {
     "events":{
         '/taketina':
         {
-            event : "Taketina",
+            eventCode : "Taketina",
             cost : [
                 {
                     Date: "2016.10.11",
@@ -20,7 +20,7 @@ var pl = {
         },
         '/playshop':
         {
-            event : "Playshop",
+            eventCode : "Playshop",
             cost : [
                 {
                     Date: "2016.10.01",

@@ -16,18 +16,31 @@
 
 <div ng-controller="RegController as Reg" >
 
-    User Name: {{Reg.formData.firstName}} {{Reg.formData.lastName}} http: Data:[{{Reg.data}}] Status:[{{Reg.status}}]
-    <br>
-    Event:{{Reg.formData.event}}
-    URL:{{Reg.formData.URL}}
-    RegDate:{{Reg.formData.regDate}}
-    <br>
-    Invalid:{{registerForm.$invalid}} Error:{{registerForm.$error}}
+    <!--
+    http: Data:[{{Reg.data}}] Status:[{{Reg.status}}] EventCode:{{Reg.eventData.eventCode}}
+    Path: {{Reg.eventData.eventPath}}
+    -->
+
+    <!-- Show Error Conditions -->
+
+    <!--
+    Invalid:{{registerForm.$invalid}}
+
+    <ul ng-show="registerForm.$invalid">
+        <li ng-repeat="(key, errors) in registerForm.$error track by $index"> <strong>{{ key }}</strong> errors
+            <ul>
+                <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+            </ul>
+        </li>
+    </ul>
+    -->
+
 
     <form name="registerForm" class="form-horizontal form-small" ng-submit="Reg.SubmitForm(formData)" action="confirm.php" method="post"
           role="form">
 
-        <input  type="text" name="eventCode" ng-model="Reg.eventData.eventCode">
+        <input  type="text"  ng-hide="true" name="eventCode" ng-model="Reg.eventData.eventCode">
+        <input  type="text"  ng-hide="true" name="eventPath" ng-model="Reg.eventData.eventPath">
 
         <div class="form-group">
             <label class="col-sm-2 control-label">Event</label>
@@ -61,7 +74,8 @@
             </div>
         </div>
 
-        <a href="ClearSession.php?EventCode={{Reg.eventData.eventCode}}">[Clear Session]</a>
+        <a href="ClearSession.php?EventCode={{Reg.eventData.eventPath}}">[Clear Session]</a>
+        <a href="RestoreSession.php?EventCode={{Reg.eventData.eventPath}}">[Restore Session]</a>
     </form>
     <!--
     <div ng-app="RegForm">

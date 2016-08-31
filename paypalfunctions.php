@@ -4,7 +4,6 @@
 	 * $Id: paypalfunctions.php 81 2016-02-28 22:36:46Z stephen $
 	 */
 	if (session_id() == "") session_start(); 
-	include_once("common/common.php");
 
 	/********************************************
 	PayPal API Module
@@ -25,28 +24,23 @@
 	//' Replace <API_SIGNATURE> with your Signature
 	//'------------------------------------
 	
-	$SandboxFlag = false;
+	$SandboxFlag = true;
 
 	if ( $SandboxFlag ) 
 	{
-		$API_UserName = urlencode('meadwi_1236048024_biz_api1.gmail.com');
-		$API_Password = urlencode('1236048051'); 
-		$API_Signature = urlencode('ALlQUm8qcnuP-7Od898fpIx21nOiAqrM-ndjHoKpOGsMT6yE3c72KIiu'); 
+		//$API_UserName = urlencode('meadwi_1236048024_biz_api1.gmail.com');
+		//$API_Password = urlencode('1236048051');
+		//$API_Signature = urlencode('ALlQUm8qcnuP-7Od898fpIx21nOiAqrM-ndjHoKpOGsMT6yE3c72KIiu');
+
+		$API_UserName = urlencode('stephen-facilitator_api1.morley.co');
+		$API_Password = urlencode('62EP4YDPBNAAYP8L');
+		$API_Signature = urlencode('AeRDLRBfzDdmt5vgfDuVtSb4emIbAB7inylxwoG.kq8ok-nuT92MwojZ');
 	}
 	else {
-		$API_UserName = urlencode('registration_api1.tamelinproductions.com');
-		$API_Password = urlencode('P4CHFLUENEJVUF5T');
-		$API_Signature = urlencode('ABtCgk5sQwMRBabacqk0CqK9Mg5OACgjKx-GC2R3.j8bJabT-hUDRPYv');
+		$API_UserName = urlencode('morwen_api1.earthdrum.com');
+		$API_Password = urlencode('ETRTE3MG6GG5JMYP');
+		$API_Signature = urlencode('AFcWxV21C7fd0v3bYYYRCpSSRl31AUuQTq1YFnsKj-GhtcC20IJDePkX');
 	}
-
-	/* CWPN For Testing */
-	/*
-	$SandboxFlag = false;
-	$API_UserName = urlencode('admin_api1.cwpn.org');
-	$API_Password = urlencode('6PXSZHS3V2QHKZM2');
-	$API_Signature = urlencode('AXynwnrzM.lr652rtodtKEIdSEkTAsap1kR4uqutp3wWJ5DzkHLw6lOV');
-	 */
-
 
 	// BN Code 	is only applicable for partners
 	$sBNCode = "PP-ECWizard";
@@ -75,18 +69,48 @@
 	$USE_PROXY = false;
 	$version="2.3";
 
-	if (session_id() == "") 
-		session_start();
-
 	/* An express checkout transaction starts with a token, that
 	   identifies to PayPal your transaction
 	   In this example, when the script sees a token, the script
 	   knows that the buyer has already authorized payment through
 	   paypal.  If no token was found, the action is to send the buyer
 	   to PayPal to first authorize payment
-	   */
+   */
 
-	/*   
+
+	function BuildRequest( $paymentAmount, $currencyCodeType, $paymentType, $returnURL, $cancelURL)
+	{
+        $data = $_SESSION["RegData"];
+		$nvpstr = "&Amt=". $paymentAmount;
+		$nvpstr = $nvpstr . "&PAYMENTACTION=" . $paymentType;
+		$nvpstr = $nvpstr . "&RETURNURL=" . $returnURL;
+		$nvpstr = $nvpstr . "&CANCELURL=" . $cancelURL;
+		$nvpstr = $nvpstr . "&CURRENCYCODE=" . $currencyCodeType;
+        $nvpstr = $nvpstr . "&SOLUTIONTYPE=Sole&LANDINGPAGE=Login";
+		/*test*/
+		$nvpstr = $nvpstr . "&DESC=" . urlencode("Registration #" . $data["regNbr"] . " to " . $data["eventCode"]);
+
+		$nvpstr = $nvpstr . "&L_NAME0=" . urlencode($data["eventCode"] . " Registration");
+		$nvpstr = $nvpstr . "&L_NUMBER0=" . urlencode('001');
+		$nvpstr = $nvpstr . "&L_DESC0=" . urlencode("Registration to " . $data["event"]);
+		$nvpstr = $nvpstr . "&L_AMT0=" . urlencode($paymentAmount);
+		$nvpstr = $nvpstr . "&L_QTY0=" . urlencode('1');
+
+		$nvpstr = $nvpstr . "&L_PAYMENTREQUEST_0_NAME0=" . urlencode($data["eventCode"] . " Registration");
+		$nvpstr = $nvpstr . "&L_PAYMENTREQUEST_0_NUMBER0=" . urlencode('001');
+		$nvpstr = $nvpstr . "&L_PAYMENTREQUEST_0_DESC0=" . urlencode("Registration to " . $data["event"]);
+		$nvpstr = $nvpstr . "&L_PAYMENTREQUEST_0_AMT0=" . urlencode($paymentAmount);
+		$nvpstr = $nvpstr . "&L_PAYMENTREQUEST_0_QTY0=" . urlencode('1');
+		$nvpstr = $nvpstr . "&ALLOWNOTE=1";
+
+
+		$nvpstr = $nvpstr . "&ITEMAMT=" . urlencode($paymentAmount);
+		$nvpstr = $nvpstr . "&TAXAMNT=0";
+
+		return $nvpstr;
+	}
+
+    /*
 	'-------------------------------------------------------------------------------------------------------------------------------------------
 	' Purpose: 	Prepares the parameters for the SetExpressCheckout API Call.
 	' Inputs:  
@@ -100,30 +124,17 @@
 	function CallShortcutExpressCheckout( $paymentAmount, $currencyCodeType, $paymentType, $returnURL, $cancelURL) 
 	{
 		global $cfg;
+		$nvpstr = BuildRequest( $paymentAmount, $currencyCodeType, $paymentType, $returnURL, $cancelURL);
 		//------------------------------------------------------------------------------------------------------------------------------------
 		// Construct the parameter string that describes the SetExpressCheckout API call in the shortcut implementation
 		
-		$nvpstr="&Amt=". $paymentAmount;
-		$nvpstr = $nvpstr . "&PAYMENTACTION=" . $paymentType;
-		$nvpstr = $nvpstr . "&RETURNURL=" . $returnURL;
-		$nvpstr = $nvpstr . "&CANCELURL=" . $cancelURL;
-		$nvpstr = $nvpstr . "&CURRENCYCODE=" . $currencyCodeType;
-	$nvpstr = $nvpstr . "&SOLUTIONTYPE=Sole&LANDINGPAGE=Login";
-		/*test*/
-		$nvpstr = $nvpstr . "&DESC=" . urlencode("Registration to $cfg->eventTitle"); 
-
-		$nvpstr = $nvpstr . "&L_NAME0=" . urlencode("$cfg->eventTitle Registration");
-		$nvpstr = $nvpstr . "&L_NUMBER0=" . urlencode('001');
-		$nvpstr = $nvpstr . "&L_DESC0=" . urlencode("Registration to $cfg->eventTitle"); 
-		$nvpstr = $nvpstr . "&L_AMT0=" . urlencode($paymentAmount);
-		$nvpstr = $nvpstr . "&L_QTY0=" . urlencode('1');
-
-		$nvpstr = $nvpstr . "&ITEMAMT=" . urlencode($paymentAmount);
-		$nvpstr = $nvpstr . "&TAXAMNT=0";
 		/*test*/
 
 		$_SESSION["currencyCodeType"] = $currencyCodeType;	  
 		$_SESSION["PaymentType"] = $paymentType;
+		$_SESSION['nvpstr'] = $nvpstr;
+
+		TraceMsg("paypalfunctions.php:CallShortcutExpressCheckout: $nvpstr");
 
 		//'--------------------------------------------------------------------------------------------------------------- 
 		//' Make the API call to PayPal
@@ -267,12 +278,14 @@
 		$paymentType 		= urlencode($_SESSION['paymentType']);
 		$currencyCodeType 	= urlencode($_SESSION['currencyCodeType']);
 		$payerID 			= urlencode($_SESSION['payer_id']);
-
 		$serverName 		= urlencode($_SERVER['SERVER_NAME']);
 
-		$nvpstr  = '&TOKEN=' . $token . '&PAYERID=' . $payerID . '&PAYMENTACTION=' . $paymentType . '&AMT=' . $FinalPaymentAmt;
+		$nvpstr = $_SESSION['nvpstr'];
+		$nvpstr .= '&TOKEN=' . $token . '&PAYERID=' . $payerID . '&PAYMENTACTION=' . $paymentType . '&AMT=' . $FinalPaymentAmt;
 		$nvpstr .= '&CURRENCYCODE=' . $currencyCodeType . '&IPADDRESS=' . $serverName; 
 
+
+        TraceMsg("paypalfunctions.php:ConfirmPayment: $nvpstr");
 
 
 		 /* Make the call to PayPal to finalize payment
@@ -364,6 +377,7 @@
 		global $PAYPAL_URL;
 		
 		// Redirect to paypal.com here
+		TraceMsg("RedirectToPayPal: Token=[$token] URL=[$PAYPAL_URL]");
 		$payPalURL = $PAYPAL_URL . $token;
 		header("Location: ".$payPalURL);
 	}

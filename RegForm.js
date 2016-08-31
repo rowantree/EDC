@@ -87,20 +87,18 @@ myApp.directive('optionField', function () {
     {
         this.GetSession = function() {
             this.status = "Calling";
-
             var thisData = this;
-
             var url = "GetSession.php";
-
             $http.get(url)
                 .success(function(data, status, headers, config)
                 {
                     thisData.status = status;
                     if ( data.json_error_code )
                     {
-                        thisData.data = data.json_error_code;
+                        console.log("json_error_code:" + data.json_error_code);
                     }
-                    else {
+                    else
+                    {
                         thisData.formData = data;
                     }
                 })
@@ -137,14 +135,12 @@ myApp.directive('optionField', function () {
         this.eventData = {};
         this.pl = pl;
 
-        // See if there was any information in the session
-        this.GetSession();
 
-        this.eventData.eventCode = $location.path();
-        if (this.eventData.eventCode in pl.events)
+        this.eventData.eventPath = $location.path();
+        if (this.eventData.eventPath in pl.events)
         {
-            var event = pl.events[this.eventData.eventCode];
-            this.eventData.event = event.event;
+            var event = pl.events[this.eventData.eventPath];
+            this.eventData.eventCode = event.eventCode;
             this.eventData.eventDesc = event.eventDesc;
 
             this.eventData.regDate = 'Registration Is Closed';
@@ -173,13 +169,11 @@ myApp.directive('optionField', function () {
         this.formData.state = "CT";
 
         // Setup the event
-
         this.status = "Ready";
         this.data = "n/a";
 
-
-
-
+        // See if there was any information in the session
+        this.GetSession();
 
     }]);
 

@@ -1,17 +1,48 @@
 <?php
-	session_start();
+if (session_id() == "") session_start();
+require_once("common.php");
 
 	require_once ("paypalfunctions.php");
-	if (IsSet($_SESSION['RegData'])) {
-		$data = $_SESSION['RegData'];
-	} else {
+
+	if (!IsSet($_SESSION['RegData']))
+	{
+		TraceMsg("PayPalPayment.php: Can't find the information in the session");
 		echo "Can't find the information in the session";
 		exit;
 	}
 
+	if (!isset($_REQUEST['token']))
+	{
+	    TraceMsg("PayPalPayment.php: Can't find the PayPal Token in the request");
+	    echo "Can't find the PayPal Token in the request";
+	    exit;
+	}
+
+    $data = $_SESSION['RegData'];
+    $_SESSION['token'] = $_REQUEST['token'];
+    $_SESSION['payer_id'] =	$_REQUEST['PayerID'];
 	$_SESSION['paymentType'] = 'Sale';
+
 	$token = $_SESSION['token'];
+
+	echo "<table border=1>";
+	foreach( $data as $key => $value )
+	{
+		echo "<tr><th>$key</th><td>$value</td></tr>";
+		$data[$key] = $value;
+	}
+	echo "</table>";
+
+    if (!array_key_exists('amountDue',$data))
+    {
+        echo "Could not find amount due in the data block";
+        exit;
+    }
+
+
 	$finalPaymentAmount =  $data['amountDue'];
+
+
 	/*
 	'------------------------------------
 	' Calls the DoExpressCheckoutPayment API call
@@ -23,6 +54,7 @@
 
 	$resArray = ConfirmPayment ( $finalPaymentAmount );
 	$ack = strtoupper($resArray["ACK"]);
+	TraceMsg("PayPalPayment.php: ConfirmPayment returned $ack");
 	if( $ack == "SUCCESS" )
 	{
 		$transactionId		= $resArray["TRANSACTIONID"];
@@ -39,7 +71,13 @@
 		$pendingReason	    = IsSet($resArray["PENDINGREASON"]) ? $resArray["PENDINGREASON"] : null;  
 		$reasonCode		    = IsSet($resArray["REASONCODE"]) ? $resArray["REASONCODE"] : null;   
 
-		require_once("SubmitRegister.php");
+        include_once "OpenDb.php";
+        $db = OpenPDO();
+        $stmt = $db->prepare("UPDATE edc_event SET transactionId=:transactionID WHERE edc_event_id=:regNbr");
+        $stmt->bindValue(':transactionID', $transactionId);
+        $stmt->bindValue(':regNbr', $data['regNbr']);
+        ExecutePDO($stmt);
+
 	}
 	else  
 	{

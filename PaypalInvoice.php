@@ -1,8 +1,10 @@
 <?php
-	session_start();
-	include_once("common/common.php");
-	if (!IsSet($_SESSION['RegData'])) 
+if (session_id() == "") session_start();
+require_once("common.php");
+
+	if (!IsSet($_SESSION['RegData']))
 	{
+		TraceMsg("PaypalInvoice.php: Can't find the information in the session");
 		echo "Can't find the information in the session";
 		exit;
 	}
@@ -14,11 +16,12 @@
 		$_SESSION['payer_id'] =	$_REQUEST['PayerID'];
 	}
 
+	TraceMsg("PaypalInvoice.php: token=$_SESSION[token] payer_id=$_SESSION[payer_id]");
+
 ?>
 <html>
 <head>
-	<title><?php echo $cfg->eventTitle;?> Registration</title>
-	<link rel="stylesheet" href="register.css" type="text/css">
+	<title><?php echo $data["EventCode"];?> Registration</title>
 	<script>
 	function submit() {
 		document.location = "PayPalPayment.php";

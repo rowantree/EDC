@@ -1,11 +1,7 @@
 <?php
 
 try {
-    // Insert record into spreadsheet
-    if (!isset($_SESSION))
-    {
-        session_start();
-    }
+    if (!isset($_SESSION)) session_start();
 
     $fh = fopen("register.csv", "w");
     flock($fh, LOCK_EX);

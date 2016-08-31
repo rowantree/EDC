@@ -1,13 +1,10 @@
 ﻿<?php
-    if (!isset($_SESSION))
-     {
-         session_start();
-         echo "Session Started<br>";
-     }
-
-/*
-	This is a comment
-*/
+    if (!isset($_SESSION)) session_start();
+    require_once("common.php");
+ ?>
+<html>
+<body>
+<?php
 
     $data = array();
 
@@ -18,12 +15,6 @@
 		$data[$key] = $value;
 	}
 	echo "</table>";
-
-	foreach( $_REQUEST as $key => $value )
-	{
-	    echo "$key,";
-	}
-	echo "<BR>";
 
     $_SESSION["RegData"] =  $data;
 
@@ -37,19 +28,32 @@
         echo "Session Data Is Set<br>";
     }
 
+    TraceMsg("confirm.php: $data[firstName] $data[lastName]");
 
-
+    // this will set $regNbr
+    include "SaveRegistration.php";
+    TraceMsg("confirm.php: Saved To database $regNbr");
 
     if ($data['paymentType'] == 'PayPal') // && !IsSet($_SESSION['token'])) {
     {
-        echo "Paypal Payment Option<br>";
         include "payment.php";
     }
     else
     {
-        include "SaveRegistration.php";
+        $_SESSION["SaveData"] = $data;
+        $data = array();
+        $_SESSION["RegData"] =  $data;
     }
+
+
+
 ?>
-<a href="register.html"><button type="button">Register</button></a>
+<a href="register.html#/taketina"><button type="button">Register Taketina</button></a>
+<a href="register.html#/playshop"><button type="button">Register PlayShop</button></a>
 <a href="submit.php"><button type="button">Submit</button></a>
 <a href="cancel.php"><button type="button">Cancel</button></a>
+</body>
+</html>
+
+
+

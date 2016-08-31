@@ -1,7 +1,6 @@
 <?php
 if (session_id() == "") session_start(); 
-//require_once("common/common.php");
-//require_once("common/cost.php");
+require_once("common.php");
 
 // Compute the absolute path to this host
 $host = 'http://' . $_SERVER['SERVER_NAME'];
@@ -23,10 +22,11 @@ if ($data['paymentType'] == 'PayPal') // && !IsSet($_SESSION['token'])) {
 	$paymentAmount = $data['amountDue'];
 	$currencyCodeType = "USD";
 	$paymentType = "Sale";
-	$returnURL = "$host/PaypalInvoice.php";
-	$cancelURL = "$host/register.html#" . $data['eventCode'];
+	$returnURL = "$host/PayPalPayment.php";
+	$cancelURL = "$host/register.html#" . $data['eventPath'];
 	$resArray = CallShortcutExpressCheckout ($paymentAmount, $currencyCodeType, $paymentType, $returnURL, $cancelURL);
 	$ack = strtoupper($resArray["ACK"]);
+	TraceMsg("payment.php: CallShortcutExpressCheckout returned $ack");
 	if ($ack=="SUCCESS")
 	{
 		RedirectToPayPal ( $resArray["TOKEN"] );

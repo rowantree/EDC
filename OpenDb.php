@@ -81,4 +81,39 @@ $DbSettings->DbName = 'edc';
 	}
 
 
+/*
+ * Subroutines
+*/
+function ExecutePDO($stmt)
+{
+	try
+	{
+		if (!$stmt->execute())
+		{
+			var_dump($stmt);
+			echo "<font color=\"red\">Database Failure!</font>";
+			echo "<font color=\"red\">", var_dump($stmt->errorInfo()), "</font>";
+			exit;
+		}
+	}
+	catch (Exception $e)
+	{
+		echo "<font color=\"red\">Database Error!</font>";
+		echo $e->getMessage();
+		error_log( Date(DATE_W3C) . '(SubmitRegister):' . $e->getMessage());
+		exit;
+	}
+}
+function GUID()
+{
+    if (function_exists('com_create_guid') === true)
+    {
+        return trim(com_create_guid(), '{}');
+    }
+
+    return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+}
+
+
+
 ?>
