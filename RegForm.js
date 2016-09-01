@@ -140,18 +140,21 @@ myApp.directive('optionField', function () {
          */
 
         this.eventData.eventPath = $location.path();
+        this.eventData.eventCode = 'ERROR';
+
         if (this.eventData.eventPath in pl.events)
         {
             var event = pl.events[this.eventData.eventPath];
-            this.eventData.eventCode = event.eventCode;
-            this.eventData.eventDesc = event.eventDesc;
 
+            this.eventData.eventDesc = event.eventDesc;
             this.eventData.regDate = 'Registration Is Closed';
             this.eventData.amountDue = 'Registration Is Closed';
+
             for(var i=0; i<event.cost.length; ++i)
             {
                 if ( Date.parse(event.cost[i].Date) > Date.now() )
                 {
+                    this.eventData.eventCode = event.eventCode;
                     this.eventData.regDate = event.cost[i].Date;
                     this.eventData.amountDue = event.cost[i].Amount;
                     break;
@@ -161,15 +164,7 @@ myApp.directive('optionField', function () {
         else
         {
             this.eventData.eventDesc = 'I don\'t know what event you are attending';
-            this.eventData.eventCode = 'ERROR';
         }
-
-        // Test Data Initialization
-        this.formData.firstName = "Stephen";
-        this.formData.lastName = "Morley";
-        this.formData.city = "Redding";
-        this.formData.zipcode = "06896";
-        this.formData.state = "CT";
 
         // Setup the event
         this.status = "Ready";

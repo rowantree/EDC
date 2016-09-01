@@ -30,7 +30,7 @@
 
 	$db->commit();
 
-	echo "Data Has Been Recorded, RegNbr is $regNbr<br>";
+    TraceMsg("Data Has Been Recorded, RegNbr is $regNbr");
 
 
 ?>

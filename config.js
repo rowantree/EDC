@@ -31,7 +31,7 @@ var pl = {
                     Amount: 320
                 }
             ],
-            eventDesc : "Playshop Dec 2-4"
+            eventDesc : "Rhythmical Alchemy Playshop Dec 2-4"
         }
 
     },

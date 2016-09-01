@@ -1,5 +1,8 @@
 <?php
 if (session_id() == "") session_start();
+/*
+ *  This is called on return from PayPal when the user has completed the process
+ */
 require_once("common.php");
 
 	require_once ("paypalfunctions.php");
@@ -25,20 +28,12 @@ require_once("common.php");
 
 	$token = $_SESSION['token'];
 
-	echo "<table border=1>";
-	foreach( $data as $key => $value )
-	{
-		echo "<tr><th>$key</th><td>$value</td></tr>";
-		$data[$key] = $value;
-	}
-	echo "</table>";
-
     if (!array_key_exists('amountDue',$data))
     {
+        TraceMsg("PayPalPayment: Error: Could not find amount due in the data block");
         echo "Could not find amount due in the data block";
         exit;
     }
-
 
 	$finalPaymentAmount =  $data['amountDue'];
 
@@ -58,6 +53,7 @@ require_once("common.php");
 	if( $ack == "SUCCESS" )
 	{
 		$transactionId		= $resArray["TRANSACTIONID"];
+	    /*
 		$transactionType 	= $resArray["TRANSACTIONTYPE"];
 		$paymentType		= $resArray["PAYMENTTYPE"];
 		$orderTime 			= $resArray["ORDERTIME"];
@@ -69,7 +65,10 @@ require_once("common.php");
 		$exchangeRate		= IsSet($resArray["EXCHANGERATE"]) ? $resArray["EXCHANGERATE"] : null;
 		$paymentStatus	    = IsSet($resArray["PAYMENTSTATUS"]) ? $resArray["PAYMENTSTATUS"] : null; 
 		$pendingReason	    = IsSet($resArray["PENDINGREASON"]) ? $resArray["PENDINGREASON"] : null;  
-		$reasonCode		    = IsSet($resArray["REASONCODE"]) ? $resArray["REASONCODE"] : null;   
+		$reasonCode		    = IsSet($resArray["REASONCODE"]) ? $resArray["REASONCODE"] : null;
+		*/
+
+		TraceMsg("PayPalPayment: " . json_encode($resArray));
 
         include_once "OpenDb.php";
         $db = OpenPDO();
@@ -78,9 +77,13 @@ require_once("common.php");
         $stmt->bindValue(':regNbr', $data['regNbr']);
         ExecutePDO($stmt);
 
+        include_once "Finalize.php";
+
 	}
 	else  
 	{
+		TraceMsg("PayPalPayment(ERROR): " . json_encode($resArray));
+
 		//Display a user friendly Error on the page using any of the following error information returned by PayPal
 		$ErrorCode = urldecode($resArray["L_ERRORCODE0"]);
 		$ErrorShortMsg = urldecode($resArray["L_SHORTMESSAGE0"]);
