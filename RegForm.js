@@ -135,6 +135,9 @@ myApp.directive('optionField', function () {
         this.eventData = {};
         this.pl = pl;
 
+        /*
+         *     Find the event parameters and locate the correct price by date
+         */
 
         this.eventData.eventPath = $location.path();
         if (this.eventData.eventPath in pl.events)
@@ -158,7 +161,7 @@ myApp.directive('optionField', function () {
         else
         {
             this.eventData.eventDesc = 'I don\'t know what event you are attending';
-            this.eventData.eventCode = '';
+            this.eventData.eventCode = 'ERROR';
         }
 
         // Test Data Initialization

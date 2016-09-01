@@ -1,4 +1,5 @@
-﻿<?php
+<?php
+	ob_start();
     if (!isset($_SESSION)) session_start();
     require_once("common.php");
  ?>

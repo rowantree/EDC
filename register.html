@@ -12,10 +12,10 @@
 
 </head>
 <body>
-<h2>EDC Event Registration</h2>
 
 <div ng-controller="RegController as Reg" >
 
+    <h2>EDC Event Registration : {{Reg.eventData.eventCode}}</h2>
     <!--
     http: Data:[{{Reg.data}}] Status:[{{Reg.status}}] EventCode:{{Reg.eventData.eventCode}}
     Path: {{Reg.eventData.eventPath}}
@@ -35,8 +35,14 @@
     </ul>
     -->
 
+    <div class="alert alert-danger" role="alert" ng-show="Reg.eventData.eventCode=='ERROR'">
+        Please return to the EDC website and select a link to the specific event you are registering for.<br/>
+        <a href="http://www.earthdrum.com">http://www.earthdrum.com</a>
+    </div>
+
 
     <form name="registerForm" class="form-horizontal form-small" ng-submit="Reg.SubmitForm(formData)" action="confirm.php" method="post"
+          ng-hide="Reg.eventData.eventCode=='ERROR'"
           role="form">
 
         <input  type="text"  ng-hide="true" name="eventCode" ng-model="Reg.eventData.eventCode">
