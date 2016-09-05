@@ -8,11 +8,11 @@ var pl = {
             eventCode : "Taketina",
             cost : [
                 {
-                    Date: "2016.10.11",
+                    Date: "2016-10-11",
                     Amount: 295
                 },
                 {
-                    Date: "2016.10.26",
+                    Date: "2016-10-26",
                     Amount: 325
                 }
             ],
@@ -23,11 +23,11 @@ var pl = {
             eventCode : "Playshop",
             cost : [
                 {
-                    Date: "2016.10.01",
+                    Date: "2016-10-01",
                     Amount: 280
                 },
                 {
-                    Date: "2016.12.02",
+                    Date: "2016-12-02",
                     Amount: 320
                 }
             ],
