@@ -3,15 +3,21 @@
 
 $DbSettings = new stdClass();
 
-$DbSettings->host = 'localhost';
-$DbSettings->username = 'rowan_RosReg';
-$DbSettings->password = 'eBssEzAjvpCU';
-$DbSettings->DbName = 'rowan_RitesRegistration';
 
 $DbSettings->host = 'ustwpres404';
 $DbSettings->username = 'root';
 $DbSettings->password = 'vepru6Wa';
 $DbSettings->DbName = 'edc';
+
+$DbSettings->host = 'localhost';
+$DbSettings->username = 'rowan_RosReg';
+$DbSettings->password = 'eBssEzAjvpCU';
+$DbSettings->DbName = 'rowan_RitesRegistration';
+
+$DbSettings->host = 'localhost';
+$DbSettings->username = 'rowan_edc';
+$DbSettings->password = ';eQ-TblKIqg9.cqQUe';
+$DbSettings->DbName = 'rowan_edc';
 
 	function LinkDb()
 	{

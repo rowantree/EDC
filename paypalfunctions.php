@@ -378,6 +378,7 @@
 		
 		// Redirect to paypal.com here
 		TraceMsg("RedirectToPayPal: Token=[$token] URL=[$PAYPAL_URL]");
+		echo("RedirectToPayPal: Token=[$token] URL=[$PAYPAL_URL]");
 		$payPalURL = $PAYPAL_URL . $token;
 		header("Location: ".$payPalURL);
 	}

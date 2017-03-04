@@ -131,6 +131,7 @@ myApp.directive('optionField', function () {
         }
 
 
+		console.log("RegForm.js Running");
         this.formData = {};
         this.eventData = {};
         this.pl = pl;
@@ -145,6 +146,7 @@ myApp.directive('optionField', function () {
         if (this.eventData.eventPath in pl.events)
         {
             var event = pl.events[this.eventData.eventPath];
+			console.log("Event is " + event.eventCode);
 
             this.eventData.eventDesc = event.eventDesc;
             this.eventData.regDate = 'Registration Is Closed';
@@ -152,6 +154,9 @@ myApp.directive('optionField', function () {
 
             for(var i=0; i<event.cost.length; ++i)
             {
+				console.log("Checking " + i + " Date=" + event.cost[i].Date);
+				console.log(Date.parse(event.cost[i].Date));
+				console.log(Date.now());
                 if ( Date.parse(event.cost[i].Date) > Date.now() )
                 {
                     this.eventData.eventCode = event.eventCode;
@@ -164,6 +169,7 @@ myApp.directive('optionField', function () {
         else
         {
             this.eventData.eventDesc = 'I don\'t know what event you are attending';
+			console.log("EventPath not found:" + this.eventData.eventPath);
         }
 
         // Setup the event
