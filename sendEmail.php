@@ -3,9 +3,9 @@
 $headers = "";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
-$bccList = "meadwizard@gmail.com, morwen@earthdrum.com";
+$bccList = "stephen@rowantree.org, morwen@earthdrum.com";
 $headers .= "Bcc: $bccList\r\n";
-$headers .= "From: EDC Registration <meadwizard@gmail.com>registrationEmailAddress>\r\n";
+$headers .= "From: EDC Registration <stephen@rowantree.org>\r\n";
 
 $msg = "<html>";
 $msg .= "<table border=1>";
