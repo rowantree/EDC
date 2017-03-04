@@ -8,15 +8,19 @@ var pl = {
             eventCode : "Taketina",
             cost : [
                 {
-                    Date: "2016-10-11",
+                    Date: "2017-06-01",
                     Amount: 295
                 },
                 {
-                    Date: "2016-10-26",
+                    Date: "2017-08-16",
                     Amount: 325
+                },
+                {
+                    Date: "2017-08-19",
+                    Amount: 360
                 }
             ],
-            eventDesc : "Taketina Workshop Oct 28, 29, and 30"
+            eventDesc : "Taketina Workshop 18-20 August, 2017"
         },
         '/playshop':
         {

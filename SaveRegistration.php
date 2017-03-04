@@ -6,7 +6,7 @@
 	$db = OpenPDO();
 	$db->beginTransaction();
 
-    $fieldList = 'eventCode, amountDue, firstName, lastName, address, city, state, zipcode, email, phone, paymentType';
+    $fieldList = 'eventCode, amountDue, firstName, lastName, address, city, state, zipcode, email, phone, paymentType, reference, experience, placeToStay';
 	$stmt = $db->prepare("INSERT INTO edc_event ($fieldList, regDate, reg_id) VALUES (:" .
         preg_replace('/,\s*/',',:',$fieldList) . ',current_timestamp(), :reg_id)');
     $stmt->bindValue(':eventCode', $postData['eventCode']);
@@ -21,6 +21,10 @@
     $stmt->bindValue(':phone', $postData['phone']);
     $stmt->bindValue(':paymentType', $postData['paymentType']);
     $stmt->bindValue(':reg_id', md5(uniqid(rand(),1)));
+
+    $stmt->bindValue(':reference', $postData['reference']);
+    $stmt->bindValue(':experience', $postData['experience']);
+    $stmt->bindValue(':placeToStay', $postData['placeToStay'] == 'on');
 
 
 	ExecutePDO($stmt);

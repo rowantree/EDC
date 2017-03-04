@@ -47,7 +47,7 @@ myApp.directive('checkBox', function () {
         },
         controller: function () { },
         controllerAs: 'ctrl',
-        template: '<div class="form-group"><div class="col-sm-2 control-label">Label</div><div class="col-sm-10"><div class="checkbox"><label><input type="checkbox"/>{{ctrl.label}}</label> </div> </div> </div>',
+        template: '<div class="form-group"><div class="col-sm-2 control-label"></div><div class="col-sm-10"><div class="checkbox"><label><input name="{{ctrl.name}}" ng-model="ctrl.model" type="checkbox"/>{{ctrl.label}}</label> </div> </div> </div>',
     }
 });
 
