@@ -24,7 +24,7 @@
 	//' Replace <API_SIGNATURE> with your Signature
 	//'------------------------------------
 	
-	$SandboxFlag = true;
+	$SandboxFlag = false;
 
 	if ( $SandboxFlag ) 
 	{
